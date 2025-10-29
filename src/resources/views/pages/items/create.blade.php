@@ -6,7 +6,7 @@
 <div class="item-create-container">
     <h2 class="page-title">商品の出品</h2>
 
-    <form method="post" action="{{ route('item.store') }}" enctype="multipart/form-data" class="item-create-form">
+    <form method="POST" action="{{ route('item.store') }}" enctype="multipart/form-data" class="item-create-form">
         @csrf
 
         <h3 class="section-title">商品画像</h3>
@@ -25,19 +25,22 @@
 
         <h3 class="section-title border-top">商品の詳細</h3>
 
-        <div class="form-group">
-            <label>カテゴリ</label>
-            <div class="category-tags-list">
-                @foreach($categories as $category)
-                    <span class="category-tag-item">{{ $category->name }}</span>
-                @endforeach
-            </div>
-        </div>
+        <x-forms.checkbox-group
+            label="カテゴリ"
+            name="categories"
+            :options="$categories ?? []"
+        />
 
-        <x-forms.stream_select
+        <x-forms.select
             label="商品の状態"
             name="condition"
-            :options="['' => '選択してください', 'new' => '新品', 'good' => '良好', 'used' => '使用済み']"
+            :options="[
+                '' => '選択してください',
+                'good' => '良好',
+                'no_damage' => '目立った傷や汚れなし',
+                'some_damage' => 'やや傷や汚れあり'
+                'poor' => '状態が悪い'
+                ]"
         />
 
         <h3 class="section-title border-top">販売価格</h3>
@@ -61,3 +64,4 @@
         </div>
     </form>
 </div>
+@endsection
