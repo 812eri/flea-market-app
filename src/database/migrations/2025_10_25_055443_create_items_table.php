@@ -20,7 +20,7 @@ class CreateItemsTable extends Migration
             $table->string('description', 255);
             $table->integer('price');
             $table->string('brand_name', 100)->nullable();
-            $table->string('condition', 20);
+            $table->foreignId('condition_id')->constrained('conditions')->onDelete('restrict');
             $table->string('image_url', 255);
             $table->timestamps();
         });

@@ -11,7 +11,7 @@ class CommentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -21,10 +21,17 @@ class CommentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules()
     {
         return [
             'comment_body' => ['required', 'string', 'max:255'],
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'comment_body' => '商品コメント'
         ];
     }
 }

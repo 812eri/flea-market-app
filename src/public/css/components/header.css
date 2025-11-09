@@ -1,0 +1,112 @@
+.header-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    width: 100%;
+
+    max-width: 1540px;
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: #000000;
+    color: #ffffff;
+    box-shadow: 0 1px 5px 0 rgba(155, 255, 255, 0.1);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-main__left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-main__logo-img {
+    height: 1.5rem;
+    width: auto;
+}
+
+.header-main__search-form {
+    flex-grow: 1;
+    max-width: 400px;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.header-main__search-wrapper {
+    position: relative;
+}
+
+.header-main__search-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ffffff;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    color: #000000;
+
+    outline: none;
+    transition: box-shadow 150ms ease-in-out;
+}
+
+.header-main__search-input:focus {
+    box-shadow: 0 0 0 2px #ff4d4d;
+}
+
+.header-main__action-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-main__nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 150ms ease-in-out;
+    white-space: nowrap;
+    padding: 0.5rem 0.25rem;
+}
+
+.header-main__nav-link:hover {
+    color: #ffb3b3;
+}
+
+.header-main__logout-form {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.header-main__logout-button {
+    color: #ffffff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.25rem;
+    transition: color 150rem ease-in-out;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+header-main__logout-button:hover {
+    color: #ff3333;
+}
+
+.header-main__action-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: background-color 150ms ease-in-out;
+}
+
+.header-main__action-button:hover {
+    background-color: #696969;
+}

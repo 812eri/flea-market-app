@@ -4,23 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAddressTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('address', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('post_code', 8);
-            $table->string('prefecture', 20);
-            $table->string('city', 50);
-            $table->string('street_address', 100);
-            $table->string('building_name', 100)->nullable();
+            $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->string('body', 255);
             $table->timestamps();
         });
     }
@@ -30,8 +27,8 @@ class CreateAddressTable extends Migration
      *
      * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('address');
+        Schema::dropIfExists('comments');
     }
 }

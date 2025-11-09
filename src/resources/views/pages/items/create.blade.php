@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', '商品の出品')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/pages/items/create.css') }}">
+@endsection
 
 @section('content')
 <div class="item-create-container">
@@ -20,7 +23,7 @@
         <x-forms.textarea
             label="商品の説明"
             name="description"
-            rouws="5"
+            rows="5"
         />
 
         <h3 class="section-title border-top">商品の詳細</h3>
@@ -33,14 +36,11 @@
 
         <x-forms.select
             label="商品の状態"
-            name="condition"
-            :options="[
-                '' => '選択してください',
-                'good' => '良好',
-                'no_damage' => '目立った傷や汚れなし',
-                'some_damage' => 'やや傷や汚れあり'
-                'poor' => '状態が悪い'
-                ]"
+            name="condition_id"
+            :options="
+                collect(['' => '選択してください'])
+                ->concat($conditions->pluck('name', 'id'))
+                ->all()"
         />
 
         <h3 class="section-title border-top">販売価格</h3>
@@ -52,12 +52,12 @@
             <span class="price-prefix">¥</span>
         </x-forms.input>
 
-        <div class="form-action-area mt-8">
+        <div class="form-action-area item-create-form__action-area">
             <x-forms.button
                 type="submit"
                 variant="primary"
                 size="large"
-                class="w-full"
+                class="item-create-form__submit"
             >
                 出品する
             </x-forms.button>

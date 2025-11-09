@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ExhibitionRequest extends FormRequest
 {
@@ -30,10 +31,10 @@ class ExhibitionRequest extends FormRequest
             'name' => ['required', 'string', 'max:100'],
             'brand_name' => ['nullable', 'string', 'max:100'],
             'description' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer', 'min:0',],
+            'price' => ['required', 'integer', 'min:1',],
             'categories' => ['required', 'array', 'min:1'],
             'categories.*' => ['exists:categories,id'],
-            'condition' => ['required', Rule::in($conditionKeys)],
+            'condition_id' => ['required', 'exists:conditions,id'],
         ];
     }
 }

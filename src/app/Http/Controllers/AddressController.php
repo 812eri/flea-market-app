@@ -22,7 +22,7 @@ class AddressController extends Controller
         }
 
         return redirect()
-            ->route('purchase.create', ['item_id' => $item_id])
+            ->route('purchase.show', ['item_id' => $item_id])
             ->with('success', '配送先情報を更新しました。');
         }
 
@@ -33,7 +33,7 @@ class AddressController extends Controller
             $address = new Address();
         }
 
-        return view('pages.purchase.address.edit', [
+        return view('pages.purchases.address.edit', [
             'address' => $address,
             'item_id' => $item_id,
         ]);

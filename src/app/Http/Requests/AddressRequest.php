@@ -32,7 +32,7 @@ class AddressRequest extends FormRequest
         ];
     }
 
-    public function messagees(): array
+    public function messages(): array
     {
         return [
             'post_code.regex' => '郵便番号はハイフンを含めた形式(XXX-XXXX)で入力してください。'

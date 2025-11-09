@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'プロフィール設定')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/pages/edit.css') }}">
+@endsection
 
 @section('content')
 <div class="profile-settings-container">
@@ -42,21 +45,35 @@
                 label="郵便番号"
                 name="post_code"
                 type="text"
-                value="{{ $user->post_code }}"
+                value="{{ $user->address->post_code ?? '' }}"
             />
 
             <x-forms.input
-                label="住所"
-                name="address"
+                label="都道府県"
+                name="prefecture"
                 type="text"
-                value="{{ $user->address }}"
+                value="{{ $user->address->prefecture ?? '' }}"
+            />
+
+            <x-forms.input
+                label="市区町村"
+                name="city"
+                type="text"
+                value="{{ $user->address->city ?? '' }}"
+            />
+
+            <x-forms.input
+                label="住所(番地以降)"
+                name="street_address"
+                type="text"
+                value="{{ $user->address->street_address ?? '' }}"
             />
 
             <x-forms.input
                 label="建物名"
                 name="building_name"
                 type="text"
-                value="{{ $user->building_name }}"
+                value="{{ $user->address->building_name ?? '' }}"
             />
 
             <div class="form-action-area mt-8">
@@ -64,7 +81,7 @@
                     type="submit"
                     variant="primary"
                     size="large"
-                    class="w-full"
+                    class="profile-form__submit"
                 >
                     更新する
                 </x-forms.button>

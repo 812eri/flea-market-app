@@ -1,6 +1,9 @@
-@extends('layouts.guest')
+@extends('layouts.app')
 
 @section('title' '会員登録')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/pages/auth/register.css' }}">
+@endsection
 
 @section('content')
 <div class="registration-container">
@@ -11,7 +14,7 @@
 
         <x-forms.input
             label="ユーザー名"
-            name="user_name"
+            name="name"
             type="text"
             placeholder="ユーザー名"
             />
@@ -42,14 +45,14 @@
                 type="submit"
                 variant="primary"
                 size="medium"
-                class="w-full"
+                class="registration-form__submit"
                 >
                 登録する
-            </x-form-button>
+            </x-forms.button>
         </div>
     </form>
 
-    <div class="mt-4 text-center">
+    <div class="registration-form__link-area">
         <a href="{{ route('login') }}">
             <x-forms.button type="button" variant="text">
                 ログインはこちら

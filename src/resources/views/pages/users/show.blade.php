@@ -10,13 +10,21 @@
 
     <x-users.profile-info :user="$user" />
 
-    <div class="profile-tabs-menu" border-top>
+    @if (Auth::check() && Auth::id() === $user->id)
+    <div class="profile-edit-link-wrapper text-right mt-4">
+        <a href="{{ route('profile.edit') }}" class="profile-edit-link">
+            プロフィール編集
+        </a>
+    </div>
+    @endif
+
+    <div class="profile-tabs-menu mt-8">
         <a href="{{ route('profile.show', ['list' => 'listed']) }}"
         class="profile-tab-item {{ $listType === 'listed' ? 'is-active' : '' }}">
             出品した商品
         </a>
         <a href="{{ route('profile.show', ['list' => 'purchased']) }}"
-        class="tab-item {{ $listType === 'purchased' ? 'is-active' : '' }}">
+        class="profile-tab-item {{ $listType === 'purchased' ? 'is-active' : '' }}">
             購入した商品
         </a>
     </div>

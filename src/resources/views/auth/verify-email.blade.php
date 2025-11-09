@@ -12,7 +12,7 @@
     </div>
 
     <div class="main-action-area mt-8">
-        <a href="{{ route('home') }}">
+        <a href="http://localhost:8025" target="_blank">
             <x-forms.button
                 type="button"
                 variant="neutral"

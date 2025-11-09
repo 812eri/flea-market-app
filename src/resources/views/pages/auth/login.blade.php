@@ -1,6 +1,9 @@
 @extends('layouts.guest')
 
 @section('title', 'ログイン')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/pages/auth/login.css') }}">
+@endsection
 
 @section('content')
 <div class="auth container">
@@ -8,6 +11,12 @@
 
     <form method="POST" action="{{ route ('login') }}" class="auth-form">
         @csrf
+
+        @error('email')
+            @if ($message === \Illuminate\Validation\ValidationException::withMessages(['email' => [trans('auth.failed')]])->errors()->first('email'))
+                <p class="error-message auth-form__general-error">ログイン情報が登録されていません</p>
+            @endif
+        @enderror
 
         <x-forms.input
             label="メールアドレス"
@@ -23,12 +32,12 @@
             placeholder="パスワード"
         />
 
-        <div class="form-action-area mt-8">
+        <div class="form-action-area auth-form__action">
             <x-forms.button
                 type="submit"
                 variant="primary"
                 size="large"
-                class="w-full"
+                class="auth-form__submit"
             >
                 ログインする
             </x-forms.button>

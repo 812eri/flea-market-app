@@ -5,6 +5,11 @@
 
         <div class="item-card-image-wrapper">
             <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="item-card-image">
+            @if ($item->is_sold)
+                <div class="item-card-sold-overlay">
+                    <span class="item-card-sold-text">Sold</span>
+                </div>
+            @endif
         </div>
 
         <div class="item-card-info">
