@@ -102,33 +102,35 @@
     border-radius: 0.25rem;
 }
 
-.summary-box {
-    border: 1px solid #ccc;
-    padding: 1.5rem;
+.summary-box-wrapper {
     margin-bottom: 1.5rem;
-    border-radius: 0.25rem;
+}
+
+.summary-box {
+    border: 1px solid #000000;
+    border-radius: 0;
+    background-color: #ffffff;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    font-size: 1.1rem;
 }
 
-.summary-payment-row {
-    border-top: 1px dashed #eee;
+.summary-row .label {
+    font-weight: normal;
 }
 
-.summary-total-row {
-    border-top: 2px solid #000000;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    font-size: 1.25rem;
+.summary-row .price-value,
+.summary-row .payment-value {
     font-weight: bold;
 }
 
 .final-action-area {
-    text-align: center;
+    margin-top: 0;
 }
 
 .purchase-button {

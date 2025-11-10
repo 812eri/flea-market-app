@@ -7,7 +7,7 @@
 <button
     {{ $attributes->merge([
         'type' => $type,
-        'class' => "btn btn-{$variant} btn-{$size}"
+        'class' => "c-button c-button--{$variant} c-button--{$size}"
         ]) }}
 >
     {{ $slot }}

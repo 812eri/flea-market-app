@@ -1,0 +1,146 @@
+/*input*/
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    transition: border-color 150ms;
+}
+
+.form-control:focus {
+    border-color: #ef4444;
+    outline: none;
+    box-shadow: 0 0 0 1px #ef4444;
+}
+
+.error-message {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.form-control.is-invalid {
+    border-color: #dc2626;
+}
+
+/*button*/
+.c-button {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 150ms, border-color 150ms;
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+.c-button--primary {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+.c-button--primary:hover {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
+
+.c-button--outline {
+    background-color: #ffffff;
+    color: #ed4444;
+    border-color: #ef4444;
+}
+
+.c-button--text {
+    background: none;
+    border-color: transparent;
+    color: #3b82f6;
+    padding: 0;
+    font-weight: normal;
+}
+
+.c-button--text:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.c-button--medium {
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+}
+
+.c-button--large {
+    padding: 1rem 1.5rem;
+    font-size: 1.125rem;
+}
+
+.c-button--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/*checkbox*/
+.checkbox-group-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 0.5rem;
+    padding-top: 0.25rem;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+
+    padding: 0.35rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+
+    background-color: #f8f8f8;
+    color: #555;
+    transition: background-color 150ms, border-color 150ms;
+}
+
+.checkbox-item:hover {
+    background-color: #eee;
+}
+
+.checkbox-item input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox-label {
+    color: #ffffff;
+    background-color: #ef4444;
+    border-color: #ef4444;
+}
+
+.checkbox-item input[type="checkbox"]:checked {
+
+}
+
+.checkbox-label {
+    padding: 0;
+    display: inline-block;
+}

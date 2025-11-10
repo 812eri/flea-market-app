@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'プロフィール')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/pages/users/show.css') }}">
+@endsection
 
 @section('content')
 <div class="profile-page-container">
@@ -10,13 +13,11 @@
 
     <x-users.profile-info :user="$user" />
 
-    @if (Auth::check() && Auth::id() === $user->id)
-    <div class="profile-edit-link-wrapper text-right mt-4">
-        <a href="{{ route('profile.edit') }}" class="profile-edit-link">
-            プロフィール編集
+    <div class="profile-edit-link-wrapper profile-page__edit-link-wrapper">
+        <a href="{{ route('profile.edit') }}" class="profile-edit-link c-button c-button--outline c-button--small">
+            プロフィールを編集
         </a>
     </div>
-    @endif
 
     <div class="profile-tabs-menu mt-8">
         <a href="{{ route('profile.show', ['list' => 'listed']) }}"
@@ -29,7 +30,7 @@
         </a>
     </div>
 
-    <div class="item-list-grid-wrapper mt-4">
+    <div class="item-list-grid-wrapper profile-page__grid-wrapper">
         @if ($items->isEmpty())
             <p class="no-items-message">{{ $listType === 'listed' ? '出品した商品' : '購入した商品' }}はありません。</p>
         @else
