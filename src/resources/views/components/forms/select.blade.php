@@ -4,7 +4,7 @@
     <label for="{{ $name }}">{{ $label }}</label>
 
     <select
-        {{ $attributds->merge([
+        {{ $attributes->merge([
             'id' => $name,
             'name' => $name,
             'class' => 'form-select'

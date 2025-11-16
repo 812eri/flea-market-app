@@ -7,7 +7,7 @@
             @php
                 $isChecked = in_array($value, old($name, $checked ?? []));
                 @endphp
-                <label class="checkbox-item">
+                <label class="checkbox-item {{ $isChecked ? 'is-checked' : '' }}">
                     <input
                         type="checkbox"
                         name="{{ $name }}[]"

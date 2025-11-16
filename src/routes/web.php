@@ -40,7 +40,7 @@ Route::get('purchase/stripe-redirect', function (Request $request) {
 })->name('/purchase.stripe.redirect');
 Route::get('/purchase/complete', [ItemController::class, 'purchaseComplete'])->name('purchase.complete');
 
-Route::get('/purchase/address//{item_id}/edit', [AddressController::class, 'edit'])->name('address.edit');
+Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit'])->name('address.edit');
 Route::post('/purchase/address/{item_id}', [AddressController::class, 'update'])->name('purchase.address.update');
 
 Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.show');

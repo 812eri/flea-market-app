@@ -1,0 +1,30 @@
+.l-main-content--auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-color: #f4f4f4;
+}
+
+.auth-container-wrapper {
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-minimal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    z-index: 10;
+}

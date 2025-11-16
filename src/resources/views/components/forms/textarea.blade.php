@@ -13,7 +13,7 @@
         {{ $attributes->merge([
             'id' => $name,
             'name' => $name,
-            'class' => 'form-textarea'
+            'class' => 'form-control form-textarea'
             ]) }}>
         {{ old($name, $value) }}</textarea>
 

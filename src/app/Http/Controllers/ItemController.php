@@ -29,7 +29,7 @@ class ItemController extends Controller
                 });
             }else {
                 $items = collect();
-                return view('pages.home.index', [
+                return view('item.index', [
                     'items' => $items,
                     'current_tab' => $tab,
                     'keyword' => $keyword,
@@ -43,7 +43,7 @@ class ItemController extends Controller
 
         $items = $query->latest()->get();
 
-        return view('pages.home.index', [
+        return view('item.index', [
             'items' => $items,
             'current_tab' => $tab,
             'keyword' => $keyword,
@@ -55,9 +55,9 @@ class ItemController extends Controller
         $categories = Category::all();
         $conditions = Condition::all();
 
-        return view('pages.items.create', [
-            'categories' => $categories,
-            'conditions' => $conditions,
+        return view('item.create', [
+            'categories' => $categories ?? collect(),
+            'conditions' => $conditions ?? collect(),
         ]);
     }
 
@@ -108,7 +108,7 @@ class ItemController extends Controller
 
         $selectedPaymentMethod = null;
 
-        return view('pages.purchase.show', [
+        return view('purchase.show', [
             'item' => $item,
             'address' => $address,
             'selectedPaymentMethod' => $selectedPaymentMethod,
@@ -117,6 +117,8 @@ class ItemController extends Controller
 
     public function purchase(Request $request, $item_id)
     {
+        $user = Auth::user();
+
         $request->validate([
             'payment_method' => ['required', 'string', 'in:conbini,credit'],
         ],[
@@ -125,7 +127,6 @@ class ItemController extends Controller
         ]);
 
         $item = Item::findOrFail($item_id);
-        $user_id = Auth::id();
 
         if ($item->is_sold || $item->user_id === $user->id) {
             return redirect()->route('item.show', $item_id)->with('error', '購入できない商品です。');
@@ -181,7 +182,7 @@ class ItemController extends Controller
             $isLiked = $item->likes()->where('user_id', Auth::id())->exists();
         }
 
-        return view('pages.items.show', [
+        return view('item.show', [
             'item' => $item,
             'likeCount' => $likeCount,
             'commentCount' => $commentCount,

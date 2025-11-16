@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Models\Address;
+use App\Models\Like;
+use App\Models\Comment;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +16,21 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
     public function items()
     {
@@ -33,6 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'profile_image_url',
     ];
 
     /**

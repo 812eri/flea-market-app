@@ -5,14 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'FreeMarket')</title>
-    <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/items.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/users.css') }}">
+
     @yield('css')
 </head>
 
-<body class="bg-gray-50 font-sans antialiased">
-    <div id="app" class="min-h-screen flex flex-col">
+<body>
+    <div id="app" class="l-page-wrapper">
         <x-app.header />
-        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <main class="l-main-content">
+            @if (session('success'))
+                <div class="alert-message alert-message--success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+            <div class="alert-message alert-message--error">
+                {{ session('error') }}
+            </div>
+            @endif
+
             @yield('content')
         </main>
     </div>

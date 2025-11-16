@@ -29,11 +29,12 @@ class AddressController extends Controller
     public function edit($item_id)
     {
         $address = Address::where('user_id', Auth::id())->first();
+
         if (!$address) {
             $address = new Address();
         }
 
-        return view('pages.purchases.address.edit', [
+        return view('address.edit', [
             'address' => $address,
             'item_id' => $item_id,
         ]);

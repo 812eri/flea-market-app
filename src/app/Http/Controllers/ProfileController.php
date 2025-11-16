@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    public function show(Request $request)
+    public function index(Request $request)
     {
     $user = Auth::user();
 
-    $listType = $request->query('list', 'listed');
+    $listType = $request->query('page', 'listed');
     $items = collect();
 
     if ($listType === 'listed') {
@@ -30,7 +30,7 @@ class ProfileController extends Controller
         })->filter()->values();
     }
 
-    return view('pages.users.show',[
+    return view('profile.index',[
         'user' => $user,
         'items' => $items,
     ]);
@@ -40,7 +40,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('pages.users.edit', [
+        return view('profile.edit', [
             'user' => $user,
         ]);
     }

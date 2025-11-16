@@ -66,7 +66,7 @@
 
 .c-button--outline {
     background-color: #ffffff;
-    color: #ed4444;
+    color: #ef4444;
     border-color: #ef4444;
 }
 
@@ -136,11 +136,113 @@
     border-color: #ef4444;
 }
 
-.checkbox-item input[type="checkbox"]:checked {
-
-}
-
 .checkbox-label {
     padding: 0;
     display: inline-block;
 }
+
+.checkbox-item input[type="checkbox"]:checked {
+
+}
+
+.checkbox-item.is-checked {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+.checkbox-item.is-checked .checkbox-label {
+    color: #ffffff;
+}
+
+/*select*/
+.form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    transition: border-color 150ms;
+
+    appearance: none;
+    background-color: #ffffff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="10" height="6" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg"><path d="M5 6L0 0h10z" fill="%236B7280"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.75rem 0.5rem;
+}
+
+.form-select:focus {
+    border-color: #ef4444;
+    outline: none;
+    box-shadow: 0 0 0 1px #ef4444;
+}
+
+/*textarea*/
+.form-textarea {
+    height: auto;
+    min-height: 8rem;
+    resize: vertical;
+}
+
+/*image-upload*/
+.image-upload-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 1rem;
+    margin-bottom: 2rem;
+
+    border: 1px dashed #ccc;
+    border-radius: 0.25rem;
+}
+
+.image-preview-area {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.placeholder-text {
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.upload-action-wrapper {
+    text-align: center;
+}
+
+.btn-image-select {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 150ms;
+}
+
+.btn-image-select:hover {
+    background-color: #f2f2f2;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+/* .image-preview-area.has-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} */
