@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+
 class ItemController extends Controller
 {
 
@@ -52,12 +55,12 @@ class ItemController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
-        $conditions = Condition::all();
+        $categories = collect(Category::all())->pluck('name', 'id')->all();
+        $conditions = collect(Condition::all())->pluck('name', 'id')->all();
 
         return view('item.create', [
-            'categories' => $categories ?? collect(),
-            'conditions' => $conditions ?? collect(),
+            'categories' => $categories ?? [],
+            'conditions' => $conditions ?? [],
         ]);
     }
 
@@ -132,36 +135,70 @@ class ItemController extends Controller
             return redirect()->route('item.show', $item_id)->with('error', '購入できない商品です。');
         }
 
-        $data = [
-            'item_id' => $item->id,
-            'user_id' => $user->id,
-            'payment_method' => $request->payment_method,
-        ];
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            return redirect()->route('purchase.stripe.redirect', $data);
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'product_data' => [
+                            'name' => $item->name,
+                        ],
+                        'unit_amount' => $item->price,
+                    ],
+                    'quantity' => 1,
+                ]
+            ],
+            'mode' => 'payment',
+            'success_url' => route('purchase.complete') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('item.show', $item->id),
+            'metadata' => [
+                'item_id' => $item->id,
+                'user_id' => $user->id,
+            ],
+        ]);
+
+        return redirect($session->url, 303);
     }
 
     public function purchaseComplete(Request $request)
     {
-        $item = Item::findOrFail($request->item_id);
-        $user_id = Auth::id();
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $sessionId = $request->get('session_id');
 
-        try {
-            DB::transaction(function () use ($item, $user_id) {
-                if ($item->is_sold || $item->user_id === $user_id) {
-                    throw new \Exception('購入処理が完了できませんでした。');
-                }
-
-                $item->update([
-                    'is_sold' => true,
-                    'buyer_id' => $user_id,
-                ]);
-            });
-        }catch (\Exception $e) {
-            return redirect()->route('item.show', $item->id)->with('error', '購入処理に失敗しました。');
+        if (!$sessionId) {
+            return redirect()->route('home')->with('error', '決済情報が見つかりませんでした。');
         }
 
-        return redirect()->route('item.show', $item->id)->with('success', '商品を購入しました。');
+        try {
+            $session = Session::retrieve($sessionId);
+            if ($session->payment_status !== 'paid') {
+                return redirect()->route('home')->with('error', '決済が完了していません。');
+            }
+
+            $itemId = $session->metadata->item_id;
+            $userId = $session->metadata->user_id;
+
+            $item = Item::findOrFail($itemId);
+
+            DB::transaction(function () use ($item, $userId) {
+                if ($item->is_sold) {
+                    return;
+                }
+                $item->update([
+                    'is_sold' => true,
+                    'buyer_id' => $userId,
+                ]);
+            });
+
+            return redirect()->route('home')->with('success', '商品の購入が完了しました。');
+
+        } catch (\Exception $e) {
+            \Log::error('Stripe購入完了処理エラー: ' . $e->getMessage());
+            return redirect()->route('home')->with('error', '購入処理中にエラーが発生しました。');
+        }
     }
 
     public function show($item_id)

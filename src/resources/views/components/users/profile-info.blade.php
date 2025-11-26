@@ -16,7 +16,7 @@
                 variant="secondary-outline"
                 size="small"
             >
-                プロフィールを編集する
+                プロフィールを編集
             </x-forms.button>
         </a>
     </div>

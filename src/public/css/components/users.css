@@ -3,14 +3,19 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 0;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid #ccc;
+    margin-bottom: 0;
+    border-bottom: none;
+
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 3rem;
 }
 
 .user-identity {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 5rem;
 }
 
 .profile-image-wrapper {

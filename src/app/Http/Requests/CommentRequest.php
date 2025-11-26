@@ -11,7 +11,7 @@ class CommentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,17 +21,25 @@ class CommentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'comment_body' => ['required', 'string', 'max:255'],
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
-            'comment_body' => '商品コメント'
+            'comment_body' => 'コメント'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'comment_body.required' => 'コメントを入力してください。',
+            'comment_body.max' => 'コメントは255文字以下で入力してください。',
         ];
     }
 }

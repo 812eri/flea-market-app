@@ -2,7 +2,7 @@
 
 @section('title', '会員登録')
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/pages/auth/register.css') }}">
+<link rel="stylesheet" href="{{ asset('css/auth/register.css') }}">
 @endsection
 
 @section('content')
@@ -16,28 +16,24 @@
             label="ユーザー名"
             name="name"
             type="text"
-            placeholder="ユーザー名"
             />
 
         <x-forms.input
             label="メールアドレス"
             name="email"
             type="email"
-            placeholder="メールアドレス"
             />
 
         <x-forms.input
             label="パスワード"
             name="password"
             type="password"
-            placeholder="パスワード"
             />
 
         <x-forms.input
             label="確認用パスワード"
             name="password_confirmation"
             type="password"
-            placeholder="確認用パスワード"
             />
 
         <div class="form-action-area">

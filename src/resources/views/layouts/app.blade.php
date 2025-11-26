@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/forms.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/items.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/users.css') }}">
 
@@ -35,5 +35,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('scripts')
 </body>
 </html>

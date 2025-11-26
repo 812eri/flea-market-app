@@ -28,47 +28,15 @@
             @enderror
         </div>
 
-        <div class="form-group address-group--prefecture">
-            <label for="prefecture" class="form-label visually-hidden">都道府県</label>
-            <input
-                id="prefecture"
-                name="prefecture"
-                type="text"
-                class="form-control"
-                value="{{ old('prefecture', $address->prefecture) }}"
-                placeholder="都道府県"
-                required
-            >
-            @error('prefecture')
-                <p class="error-message">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="form-group address-group--city">
-            <label for="city" class="form-label visually-hidden">市区町村</label>
-            <input
-                id="city"
-                name="city"
-                type="text"
-                class="form-control"
-                value="{{ old('city', $address->city) }}"
-                placeholder="市区町村"
-                required
-            >
-            @error('city')
-                <p class="error-message">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="form-group address-group--street">
-            <label for="street_address" class="form-label visually-hidden">番地</label>
+        <div class="form-group address-group--street_address">
+            <label for="street_address" class="form-label visually-hidden">住所</label>
             <input
                 id="street_address"
                 name="street_address"
                 type="text"
                 class="form-control"
                 value="{{ old('street_address', $address->street_address) }}"
-                placeholder="番地・建物名を除く住所"
+                placeholder="住所"
                 required
             >
             @error('street_address')

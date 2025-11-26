@@ -1,11 +1,11 @@
 <header class="header-main">
     <div class="header-main__left">
-        <a href="{{ route('home') }}" class="header-main__logo-link">
+        <a href="{{ url('/') }}" class="header-main__logo-link">
             <img src="{{ asset('images/logo.svg') }}" alt="Free-market-Logo" class="header-main__logo-img">
         </a>
     </div>
 
-    <form action="{{ route('home') }}" method="get" class="header-main__search-form">
+    <form action="{{ url('/') }}" method="get" class="header-main__search-form">
         <div class="header-main__search-wrapper">
             <input
                 type="search"

@@ -1,16 +1,19 @@
 .profile-page-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 3rem auto;
-    padding: 1rem;
+    width: 100%;
+    max-width: none;
+    margin: 3rem auto 1rem;
+    padding: 0 1rem;
 }
 
 .profile-info-container {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+    gap: 3rem;
+
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+
+    padding-bottom: 0;
     position: relative;
 }
 
@@ -29,13 +32,15 @@
 
 .profile-page__edit-link-wrapper {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
 }
 
 .profile-edit-link {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
     border: 1px solid #ef4444;
     color: #ef4444;
     text-decoration: none;
@@ -49,15 +54,27 @@
     background-color: #fef2f2;
 }
 
+.profile-tabs-menu {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    max-width: none;
+    margin: 0 auto;
+    margin-top: 0;
+    margin-bottom: 3rem;
+    padding: 0 3rem;
+}
+
+.profile-tabs-menu-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 .profile-tab-item {
     padding: 0.75rem 1.5rem;
     text-decoration: none;
-    color: #555;
     font-weight: bold;
-    transition: color 150ms;
-    cursor: pointer;
     border-bottom: 4px solid transparent;
-    margin-bottom: -1px;
+    margin-bottom: -2px;
 }
 
 .profile-tab-item.is-active {
@@ -66,18 +83,25 @@
 }
 
 .profile-page__grid-wrapper {
-    margin-top: 1rem;
+    margin-top: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
 }
 
 .item-list-grid {
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    grid-template-columns: repeat(4, 290px);
+    max-width: 1200px;
+    margin: 3rem auto;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .item-list-grid {
         grid-template-columns: repeat(3, 1fr);
+        gap: 2.5em;
     }
 }
 

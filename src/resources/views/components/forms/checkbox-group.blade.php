@@ -5,6 +5,7 @@
     <div class="checkbox-group-container">
         @foreach ($options as $value => $label)
             @php
+            $id = $name . '_' . $value;
                 $isChecked = in_array($value, old($name, $checked ?? []));
                 @endphp
                 <label class="checkbox-item {{ $isChecked ? 'is-checked' : '' }}">
@@ -12,6 +13,8 @@
                         type="checkbox"
                         name="{{ $name }}[]"
                         value="{{ $value }}"
+                        class="hidden-checkbox-input"
+                        style="z-index: 99;"
                         {{ $isChecked ? 'checked' : '' }}
                     >
                     <span class="checkbox-label">{{ $label }}</span>

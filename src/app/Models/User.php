@@ -42,6 +42,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Purchase::class);
     }
 
+    public function purchasedItems()
+    {
+        return $this->hasMany(Item::class, 'buyer_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -52,6 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'profile_image_url',
+        'has_profile',
     ];
 
     /**
@@ -72,4 +78,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function hasCompletedProfile(): bool
+    {
+        return (bool) $this->has_profile;
+    }
 }

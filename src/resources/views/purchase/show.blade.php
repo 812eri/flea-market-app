@@ -51,6 +51,7 @@
                         :options="[
                             'conbini' => 'コンビニ支払い',
                             'credit' => 'カード支払い']"
+                            label=""
                         class="payment-select"
                     />
 

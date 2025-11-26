@@ -20,7 +20,7 @@
 
             <div class="image-upload-wrapper">
                 <label for="profile_image" class="btn-image-stream_select">
-                    画像を投稿する
+                    画像を選択する
                 </label>
                 <input
                     type="file"
@@ -49,24 +49,10 @@
             />
 
             <x-forms.input
-                label="都道府県"
-                name="prefecture"
-                type="text"
-                value="{{ $user->address->prefecture ?? '' }}"
-            />
-
-            <x-forms.input
-                label="市区町村"
-                name="city"
-                type="text"
-                value="{{ $user->address->city ?? '' }}"
-            />
-
-            <x-forms.input
-                label="住所(番地以降)"
+                label="住所"
                 name="street_address"
                 type="text"
-                value="{{ $user->address->street_address ?? '' }}"
+                value="{{ $user->address->prefecture ?? '' }}{{ $user->address->city ?? '' }}{{ $user->address->street_address ?? '' }}"
             />
 
             <x-forms.input

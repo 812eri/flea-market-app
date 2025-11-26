@@ -1,15 +1,17 @@
 /*input*/
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    display: block;
+    width: 100%;
     margin-bottom: 0.5rem;
 }
 
 .form-group label {
+    display: block;
+    text-align: left;
     font-weight: bold;
-    color: #333;
-    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: inherit;
+    font-size: 1rem;
 }
 
 .form-control {
@@ -17,8 +19,8 @@
     padding: 0.75rem 1rem;
     border: 1px solid #d1d5db;
     border-radius: 0.25rem;
+    box-sizing: border-box;
     font-size: 1rem;
-    transition: border-color 150ms;
 }
 
 .form-control:focus {
@@ -102,57 +104,69 @@
 .checkbox-group-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem 0.5rem;
-    padding-top: 0.25rem;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0;
+}
+
+.form-group .checkbox-item {
+    color: #ff5655 !important;
 }
 
 .checkbox-item {
-    display: flex;
-    align-items: center;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
     cursor: pointer;
     user-select: none;
 
-    padding: 0.35rem 1rem;
-    border: 1px solid #ddd;
+    color: #ff5655;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid #ff5655;
+    background-color: #ffffff;
     border-radius: 9999px;
     font-size: 0.875rem;
 
-    background-color: #f8f8f8;
-    color: #555;
-    transition: background-color 150ms, border-color 150ms;
-}
-
-.checkbox-item:hover {
-    background-color: #eee;
+    transition: all 150ms;
 }
 
 .checkbox-item input[type="checkbox"] {
     display: none;
-}
-
-.checkbox-item input[type="checkbox"]:checked + .checkbox-label {
-    color: #ffffff;
-    background-color: #ef4444;
-    border-color: #ef4444;
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .checkbox-label {
     padding: 0;
     display: inline-block;
-}
-
-.checkbox-item input[type="checkbox"]:checked {
-
+    color: inherit;
+    background-color: transparent !important;
 }
 
 .checkbox-item.is-checked {
-    background-color: #ef4444;
+    background-color: #ff5655;
     color: #ffffff;
-    border-color: #ef4444;
+    border-color: #ff5655;
+}
+
+.checkbox-item input[type="checkbox"]:checked~.checkbox-label {
+    /* 子要素のlabelに影響を与えるセレクタは使用しない */
+}
+
+/* 💡 強制適用: inputがcheckedなら、親要素に強制的にスタイルを適用する */
+.checkbox-item:has(input[type="checkbox"]:checked) {
+    background-color: #ff5655;
+    color: #ffffff !important;
+    border-color: #ff5655;
 }
 
 .checkbox-item.is-checked .checkbox-label {
-    color: #ffffff;
+    color: #ffffff !important;
+    background-color: transparent !important;
 }
 
 /*select*/

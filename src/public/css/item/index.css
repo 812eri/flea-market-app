@@ -1,13 +1,18 @@
 .item-list-page-container {
-    width: 90%;
-    max-width: 1400px;
-    margin: 2rem auto;
+    width: 100%;
+    max-width: none;
+    margin: 2rem 0;
 }
 
 .tab-menu-wrapper {
     display: flex;
     border-bottom: 2px solid #ccc;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
+
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.5rem;
 }
 
 .tab-item {
@@ -36,8 +41,10 @@
 
 .item-list-grid {
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(4, 1fr);
+    column-gap: 3rem;
+    row-gap: 5rem;
+    grid-template-columns: repeat(4, 290px);
+    justify-content: center;
 }
 
 .search-result-title {
@@ -54,6 +61,8 @@
 
 @media (max-width: 1200px) {
     .item-list-grid {
+        column-gap: 3rem;
+        row-gap: 5rem;
         grid-template-columns: repeat(3, 1fr);
     }
 }

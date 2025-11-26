@@ -1,27 +1,33 @@
 .profile-settings-container {
-    width: 90%;
-    max-width: 600px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background-color: #ffffff;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    border-radius: 0.5rem;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .page-title {
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
     color: #000000;
 }
 
 .profile-image-section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     margin-bottom: 2rem;
+
+    width: 500px;
+    margin: 0 auto 2rem;
+    padding: 0 1.5rem;
 }
 
 .current-image-area {
@@ -30,7 +36,9 @@
     border-radius: 50%;
     overflow: hidden;
     background-color: #e5e7eb;
-    margin-bottom: 1rem;
+
+    margin-right: 1.5rem;
+    margin-bottom: 0;
 }
 
 .profile-image {
@@ -63,7 +71,11 @@
 .profile-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
+
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
 }
 
 .profile-form__submit {
@@ -72,6 +84,7 @@
     font-size: 1.125rem;
 
     background-color: #ef4444;
+    color: #ffffff;
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
@@ -82,6 +95,6 @@
     background-color: #dc2626;
 }
 
-.form-group {
-    margin-bottom: 0;
+.form-action-area {
+    margin-top: 2rem;
 }

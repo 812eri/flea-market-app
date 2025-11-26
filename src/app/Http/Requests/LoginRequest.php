@@ -11,9 +11,9 @@ class LoginRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -32,8 +32,9 @@ class LoginRequest extends FormRequest
     public function message(): array
     {
         return [
-            'email.required' => 'メールアドレスを入力してください',
-            'password.required' => 'パスワードを入力してください',
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => 'メールアドレスはメール形式で入力してください。',
+            'password.required' => 'パスワードを入力してください。',
         ];
     }
 }

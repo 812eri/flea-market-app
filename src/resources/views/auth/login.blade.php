@@ -2,7 +2,7 @@
 
 @section('title', 'ログイン')
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/pages/auth/login.css') }}">
+<link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
 @endsection
 
 @section('content')
@@ -15,8 +15,6 @@
         @error('email')
             @if ($message === trans('auth.failed'))
                 <p class="error-message auth-form__general-error">ログイン情報が登録されていません</p>
-            @else
-                <p class="error-message">{{ $message }}</p>
             @endif
         @enderror
 
@@ -24,14 +22,12 @@
             label="メールアドレス"
             name="email"
             type="email"
-            placeholder="メールアドレス"
         />
 
         <x-forms.input
             label="パスワード"
             name="password"
             type="password"
-            placeholder="パスワード"
         />
 
         <div class="form-action-area auth-form__action">

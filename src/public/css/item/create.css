@@ -1,8 +1,7 @@
 .item-create-container {
-    width: 95%;
-    max-width: 800px;
+    max-width: 700px;
     margin: 3rem auto;
-    padding: 2rem;
+    padding: 2rem 2.5rem;
     background-color: #ffffff;
 }
 
@@ -14,10 +13,21 @@
     color: #000000;
 }
 
+.two-column-details {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.two-column-details__left,
+.two-column-details__right {
+    flex: 1;
+}
+
 .section-title {
     font-size: 1.25rem;
     font-weight: bold;
-    margin-top: 2rem;
+    margin-top: 0;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #ccc;
@@ -37,30 +47,6 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
-}
-
-.checkbox-group-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-.metadata-tag {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border: 1px solid #ffb3b3;
-    color: #ef4444;
-    background-color: #fff0f0;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    cursor: pointer;
-    user-select: none;
-}
-
-.metadata-tag.is-checked {
-    background-color: #ef4444;
-    color: #ffffff;
 }
 
 .price-prefix {
@@ -86,6 +72,6 @@
     transition: background-color 150ms;
 }
 
-.iten-create-form__submit:hover {
+.item-create-form__submit:hover {
     background-color: #dc2626;
 }

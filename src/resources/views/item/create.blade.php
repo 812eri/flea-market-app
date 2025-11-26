@@ -15,33 +15,34 @@
         <h3 class="section-title">商品画像</h3>
         <x-forms.image-upload name="item_image" />
 
-        <h3 class="section-title border-top">商品名と説明</h3>
+        <div class="two-column-details">
+            <div class="two-column-details__left">
+                <h3 class="section-title">商品の詳細</h3>
+                <x-forms.checkbox-group
+                    label="カテゴリ"
+                    name="categories"
+                    :options="$categories ?? []"
+                />
 
-        <x-forms.input label="商品名" name="name" type="text" />
-        <x-forms.input label="ブランド名" name="brand_name" type="text" />
+                <x-forms.select
+                    label="商品の状態"
+                    name="condition_id"
+                    id="condition_select"
+                    :options="$conditions ?? []"
+                />
+            </div>
+            <div class="two-column-details__right">
+                <h3 class="section-title">商品名と説明</h3>
+                <x-forms.input label="商品名" name="name" type="text" />
+                <x-forms.input label="ブランド名" name="brand_name" type="text" />
 
-        <x-forms.textarea
-            label="商品の説明"
-            name="description"
-            rows="5"
-        />
-
-        <h3 class="section-title border-top">商品の詳細</h3>
-
-        <x-forms.checkbox-group
-            label="カテゴリ"
-            name="categories"
-            :options="$categories ?? []"
-        />
-
-        <x-forms.select
-            label="商品の状態"
-            name="condition_id"
-            :options="
-                collect(['' => '選択してください'])
-                ->concat(isset($conditions) ? $conditions->pluck('name', 'id') : collect())
-                ->all()"
-        />
+                <x-forms.textarea
+                    label="商品の説明"
+                    name="description"
+                    rows="5"
+                />
+            </div>
+        </div>
 
         <h3 class="section-title border-top">販売価格</h3>
         <x-forms.input
@@ -64,4 +65,30 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. IDでドロップダウン要素を取得
+    const conditionSelect = document.getElementById('condition_select'); 
+
+    // 2. value="" のプレースホルダーオプションを取得
+    const placeholderOption = conditionSelect ? conditionSelect.querySelector('option[value=""]') : null;
+
+    if (placeholderOption) {
+        // ドロップダウンがクリックされたら (リストが開く前)
+        conditionSelect.addEventListener('mousedown', function() {
+            // プレースホルダーを非表示にする
+            placeholderOption.style.display = 'none';
+        });
+
+        // ドロップダウンからフォーカスが外れたら (リストが閉じた後)
+        conditionSelect.addEventListener('blur', function() {
+            // プレースホルダーを再表示する (リストの上部に表示させるため)
+            placeholderOption.style.display = ''; 
+        });
+    }
+});
+</script>
 @endsection

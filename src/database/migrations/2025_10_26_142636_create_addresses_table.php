@@ -17,8 +17,6 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('post_code', 8);
-            $table->string('prefecture', 20);
-            $table->string('city', 50);
             $table->string('street_address', 100);
             $table->string('building_name', 100)->nullable();
             $table->timestamps();

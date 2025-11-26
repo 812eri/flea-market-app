@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CommentController;
@@ -8,6 +10,8 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\HomeController;
+
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,28 +27,30 @@ use App\Http\Controllers\HomeController;
 Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
-Route::middleware(['auth'])->group(function () {
-    Route::middleware(['verified'])->group(function () {
-        Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
-        Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
 
-Route::post('/item/{item_id}/like', [LikeController::class, 'store'])->name('item.like.store');
-Route::delete('/item/{item_id}/like', [LikeController::class, 'destroy'])->name('item.like.destroy');
-Route::post('/item/{item_id}/comment', [CommentController::class, 'store'])->name('item.comment');
+Route::get('/login', [LoginController::class, 'create'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'store'])->middleware('guest');
+Route::post('/logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
 
-Route::get('/purchase/{item_id}', [ItemController::class, 'purchaseShow'])->name('purchase.show');
-Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
+    Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
 
-Route::get('purchase/stripe-redirect', function (Request $request) {
-    return redirect()->route('purchase.complete', $request->query());
-})->name('/purchase.stripe.redirect');
-Route::get('/purchase/complete', [ItemController::class, 'purchaseComplete'])->name('purchase.complete');
+    Route::post('/item/{item_id}/like', [LikeController::class, 'store'])->name('item.like.store');
+    Route::delete('/item/{item_id}/like', [LikeController::class, 'destroy'])->name('item.like.destroy');
+    Route::post('/item/{item_id}/comment', [CommentController::class, 'store'])->name('item.comment');
 
-Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit'])->name('address.edit');
-Route::post('/purchase/address/{item_id}', [AddressController::class, 'update'])->name('purchase.address.update');
+    Route::get('/purchase/{item_id}', [ItemController::class, 'purchaseShow'])->name('purchase.show');
+    Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
 
-Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.show');
-Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit'])->name('address.edit');
+    Route::patch('/purchase/address/{item_id}', [AddressController::class, 'update'])->name('purchase.address.update');
 
+    Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.show');
+    Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
-});
+
+Route::get('/order/success', [ItemController::class, 'purchaseComplete'])->name('purchase.complete');

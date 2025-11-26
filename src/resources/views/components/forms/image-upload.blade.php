@@ -7,7 +7,7 @@
 
     <div class="upload-action-wrapper">
         <label for="{{ $name }}" class="btn-image-select">
-            画像を投稿する
+            画像を選択する
         </label>
         <input type="file" id="{{ $name }}" name="{{ $name }}" class="hidden-file-input">
     </div>

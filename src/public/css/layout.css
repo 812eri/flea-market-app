@@ -2,10 +2,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1.5rem;
     width: 100%;
 
-    max-width: 1540px;
+    max-width: none;
     margin-left: auto;
     margin-right: auto;
 
@@ -42,7 +42,7 @@
 
 .header-main__search-input {
     width: 100%;
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1rem;
     border: 1px solid #ffffff;
     border-radius: 0.5rem;
     background-color: #ffffff;
@@ -67,7 +67,7 @@
     text-decoration: none;
     transition: color 150ms ease-in-out;
     white-space: nowrap;
-    padding: 0.5rem 0.25rem;
+    padding: 0.7rem 0.25rem;
 }
 
 .header-main__nav-link:hover {
@@ -91,13 +91,13 @@
     white-space: nowrap;
 }
 
-header-main__logout-button:hover {
+.header-main__logout-button:hover {
     color: #ff3333;
 }
 
 .header-main__action-button {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1rem;
     background-color: #ffffff;
     color: #000000;
     text-decoration: none;
@@ -118,7 +118,7 @@ header-main__logout-button:hover {
     flex-direction: column;
 }
 
-.l-page-content {
+.l-main-content {
     flex-grow: 1;
     width: 100%;
 

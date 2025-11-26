@@ -17,17 +17,13 @@ class ProfileController extends Controller
     {
     $user = Auth::user();
 
-    $listType = $request->query('page', 'listed');
+    $listType = $request->query('page', 'sell');
     $items = collect();
 
-    if ($listType === 'listed') {
+    if ($listType === 'sell') {
         $items = $user->items()->latest()->get();
-    }elseif ($listType === 'purchased') {
-        $purchases = $user->purchases()->with('item')->latest()->get();
-
-        $items = $purchases->map(function ($purchase) {
-            return $purchase->item;
-        })->filter()->values();
+    }elseif ($listType === 'buy') {
+        $items = $user->purchasedItems()->latest()->get();
     }
 
     return view('profile.index',[
@@ -48,6 +44,7 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request)
     {
         $user = Auth::user();
+
         $validatedData = $request->validated();
 
         DB::transaction(function () use ($request, $user, $validatedData) {
@@ -63,7 +60,6 @@ class ProfileController extends Controller
                 }
 
                 $path = $request->file('profile_image')->store('profiles', 'public');
-
                 $imagePath = Storage::url($path);
             }
 
@@ -76,14 +72,18 @@ class ProfileController extends Controller
                 ['user_id' => $user->id],
                 [
                     'post_code' => $validatedData['post_code'],
-                    'prefecture' => $validatedData['prefecture'],
-                    'city' => $validatedData['city'],
                     'street_address' => $validatedData['street_address'],
                     'building_name' => $validatedData['building_name'] ?? null,
                 ]
             );
+
+            if (!$user->has_profile) {
+                $user->has_profile = true;
+                $user->save();
+            }
+
         });
 
-        return redirect()->route('profile.show')->with('success', 'プロフィール情報を更新しました。');
+        return redirect()->route('profile.edit')->with('success', 'プロフィール情報を更新しました。');
     }
 }
