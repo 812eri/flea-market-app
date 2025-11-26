@@ -76,14 +76,52 @@ class ProfileController extends Controller
                     'building_name' => $validatedData['building_name'] ?? null,
                 ]
             );
-
-            if (!$user->has_profile) {
-                $user->has_profile = true;
-                $user->save();
-            }
-
         });
 
         return redirect()->route('profile.edit')->with('success', 'プロフィール情報を更新しました。');
+    }
+
+    public function updateProfileSetup(ProfileRequest $request)
+    {
+        $user = Auth::user();
+
+        $validatedData = $request->validated();
+
+    DB::transaction(function () use ($request, $user, $validatedData) {
+        $imagePath = $user->profile_image_url;
+
+        // --- 画像処理 ---
+        if ($request->hasFile('profile_image')) {
+            if ($user->profile_image_url) {
+                $oldPath = str_replace(Storage::url(''), '', $user->profile_image_url);
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+            $path = $request->file('profile_image')->store('profiles', 'public');
+            $imagePath = Storage::url($path);
+        }
+
+        // --- ユーザー情報の更新 ---
+        $user->update([
+            'name' => $validatedData['user_name'],
+            'profile_image_url' => $imagePath,
+            // ★【重要】ここで profile_completed を true に設定
+            'profile_completed' => true,
+        ]);
+
+        // --- 住所情報の更新 ---
+        Address::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'post_code' => $validatedData['post_code'],
+                'street_address' => $validatedData['street_address'],
+                'building_name' => $validatedData['building_name'] ?? null,
+            ]
+        );
+    });
+
+    // 【重要】設定完了後は商品一覧画面へリダイレクト
+    return redirect()->route('home')->with('success', 'プロフィール設定が完了しました。');
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CommentController;
@@ -26,15 +24,14 @@ use Illuminate\Http\Request;
 
 Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
-
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
-
-Route::get('/login', [LoginController::class, 'create'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'store'])->middleware('guest');
-Route::post('/logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
+Route::get('/order/success', [ItemController::class, 'purchaseComplete'])->name('purchase.complete');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile/setup', [ProfileController::class, 'edit'])->name('profile.setup.form');
+    Route::patch('/profile/setup', [ProfileController::class, 'updateProfileSetup'])->name('profile.setup.process');
+});
+
+Route::middleware(['auth', 'verified','profile.completed'])->group(function () {
     Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
     Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
 
@@ -53,4 +50,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-Route::get('/order/success', [ItemController::class, 'purchaseComplete'])->name('purchase.complete');
