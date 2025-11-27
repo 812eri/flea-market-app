@@ -90,7 +90,6 @@ class ProfileController extends Controller
     DB::transaction(function () use ($request, $user, $validatedData) {
         $imagePath = $user->profile_image_url;
 
-        // --- 画像処理 ---
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image_url) {
                 $oldPath = str_replace(Storage::url(''), '', $user->profile_image_url);
@@ -102,15 +101,12 @@ class ProfileController extends Controller
             $imagePath = Storage::url($path);
         }
 
-        // --- ユーザー情報の更新 ---
         $user->update([
             'name' => $validatedData['user_name'],
             'profile_image_url' => $imagePath,
-            // ★【重要】ここで profile_completed を true に設定
             'profile_completed' => true,
         ]);
 
-        // --- 住所情報の更新 ---
         Address::updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -121,7 +117,6 @@ class ProfileController extends Controller
         );
     });
 
-    // 【重要】設定完了後は商品一覧画面へリダイレクト
     return redirect()->route('home')->with('success', 'プロフィール設定が完了しました。');
     }
 }

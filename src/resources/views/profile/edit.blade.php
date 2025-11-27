@@ -9,7 +9,17 @@
 <div class="profile-settings-container">
     <h2 class="page-title">プロフィール設定</h2>
 
-    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="profile-form">
+    @php
+        use Illuminate\Support\Facades\Route;
+
+        $currentRoute = Route::currentRouteName();
+
+        $actionRoute = $currentRoute === 'profile.setup.form'
+                       ? 'profile.setup.process'
+                       : 'profile.update';
+    @endphp
+
+    <form method="post" action="{{ route($actionRoute) }}" enctype="multipart/form-data" class="profile-form">
         @csrf
         @method('patch')
 

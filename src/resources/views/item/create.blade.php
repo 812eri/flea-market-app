@@ -70,23 +70,17 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. IDでドロップダウン要素を取得
     const conditionSelect = document.getElementById('condition_select'); 
 
-    // 2. value="" のプレースホルダーオプションを取得
     const placeholderOption = conditionSelect ? conditionSelect.querySelector('option[value=""]') : null;
 
     if (placeholderOption) {
-        // ドロップダウンがクリックされたら (リストが開く前)
         conditionSelect.addEventListener('mousedown', function() {
-            // プレースホルダーを非表示にする
             placeholderOption.style.display = 'none';
         });
 
-        // ドロップダウンからフォーカスが外れたら (リストが閉じた後)
         conditionSelect.addEventListener('blur', function() {
-            // プレースホルダーを再表示する (リストの上部に表示させるため)
-            placeholderOption.style.display = ''; 
+            placeholderOption.style.display = '';
         });
     }
 });

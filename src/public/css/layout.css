@@ -111,6 +111,12 @@
     background-color: #696969;
 }
 
+.header-main__left h1 {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
 /*app.blade.phpのスタイル*/
 .l-page-wrapper {
     min-height: 100vh;
@@ -122,7 +128,7 @@
     flex-grow: 1;
     width: 100%;
 
-    max-width: 1280px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 

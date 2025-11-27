@@ -1,8 +1,10 @@
 <header class="header-main">
     <div class="header-main__left">
-        <a href="{{ url('/') }}" class="header-main__logo-link">
-            <img src="{{ asset('images/logo.svg') }}" alt="Free-market-Logo" class="header-main__logo-img">
-        </a>
+        <h1>
+            <a href="{{ url('/') }}" class="header-main__logo-link">
+                <img src="{{ asset('images/logo.svg') }}" alt="Free-market-Logo" class="header-main__logo-img">
+            </a>
+        </h1>
     </div>
 
     <form action="{{ url('/') }}" method="get" class="header-main__search-form">
