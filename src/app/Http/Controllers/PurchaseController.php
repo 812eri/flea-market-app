@@ -2,112 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PurchaseRequest;
 use App\Models\Item;
 use App\Models\Address;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-
-use Stripe\Stripe;
-use Stripe\Checkout\Session;
+use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    public function create($item_id): \Illuminate\View\View|RedirectResponse
+    /**
+     * 購入画面表示
+     */
+    public function show($item_id)
     {
         $item = Item::findOrFail($item_id);
 
-        if (Purchase::where('item_id', $item_id)->exists()) {
-            return redirect()->route('item.show', $item_id)
-            ->with('error', 'この商品はすでに購入済です。');
+        // すでに売り切れなら購入画面に進ませない
+        if ($item->is_sold) {
+            return redirect()->route('items.index')->with('error', 'この商品はすでに購入されています。');
+        }
+
+        // ユーザーの住所
+        $address = Address::where('user_id', Auth::id())->first();
+
+        // 支払い方法（表示用）
+        $selectedPaymentMethodCode = request()->query('payment_method_code');
+        $selectedPaymentMethod = $this->getPaymentMethodDisplay($selectedPaymentMethodCode);
+
+        return view('purchase.show', compact('item', 'address', 'selectedPaymentMethod', 'selectedPaymentMethodCode'));
+    }
+
+    /**
+     * 購入処理
+     */
+    public function store(Request $request, $item_id)
+    {
+        $request->validate([
+            'payment_method' => 'required|in:conbini,credit'
+        ]);
+
+        $item = Item::findOrFail($item_id);
+
+        // 売り切れチェック
+        if ($item->is_sold) {
+            return redirect()->route('items.index')->with('error', 'この商品はすでに購入されています。');
         }
 
         $address = Address::where('user_id', Auth::id())->first();
-
-        if (!$address || !$address->id) {
-            return redirect()->route('profile.edit')
-            ->with('error', '購入手続きに進む前に、プロフィール設定画面で配送先住所を登録してください。');
+        if (!$address) {
+            return back()->withErrors(['address' => '配送先を設定してください。']);
         }
 
-        return view('pages.purchase.create', [
-            'item' => $item,
-            'address' => $address,
-            'selectedPaymentMethod' => null,
+        // -----------------------
+        // ① 購入履歴を作成
+        // -----------------------
+        Purchase::create([
+            'user_id'        => Auth::id(),
+            'item_id'        => $item_id,
+            'address_id'     => $address->id,
+            'payment_method' => $request->payment_method,
         ]);
+
+        // -----------------------
+        // ② 商品の購入フラグを更新
+        // -----------------------
+        $item->update([
+            'is_sold'  => true,
+            'buyer_id' => Auth::id(),
+        ]);
+
+        // 購入完了画面へ
+        return redirect()->route('purchase.complete')->with('success', '購入が完了しました。');
     }
 
-    public function store(PurchaseRequest $request, $item_id): RedirectResponse
+    /**
+     * 購入完了画面
+     */
+    public function complete()
     {
-        $item = Item::findOrFail($item_id);
-        $userId = Auth::id();
-
-        if (Purchase::where('item_id', $item->id)->exists()) {
-            return redirect()->route('item.show', $item->id)
-            ->with('error', 'この商品はすでに購入済です。');
-        }
-
-        $paymentMethod = $request->payment_method;
-
-        if ($paymentMethod === 'card') {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-            $session = \Stripe\Checkout\Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'jpy',
-                        'unit_amount' => $item->price,
-                        'product_data' => [
-                            'name' => $item->name,
-                        ],
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'payment',
-                'success_url' => route('purchase.success', ['item_id' => $item->id, 'session_id' => '{CHECKOUT_SESSION_ID}']),
-                'cancel_url' => route('item.show', ['item_id' => $item->id]),
-
-                'metadata' => [
-                    'user_id' => $userId,
-                    'item_id' => $item->id,
-                    'address_id' => $request->address_id,
-                    'payment_method' => 'card',
-                ],
-            ]);
-
-            return redirect()->away($session->url);
-        } else {
-
-        Purchase::create([
-            'user_id' => $userId,
-            'item_id' => $item->id,
-            'payment_method' => $paymentMethod,
-            'address_id' => $request->address_id,
-        ]);
-
-        return redirect()->route('item.index')->with('success', 'コンビニ払いの手続きを開始しました。');
-        }
+        return view('purchase.complete');
     }
 
-    public function success($item_id, $session_id): RedirectResponse
+    /**
+     * 支払い方法の表示名
+     */
+    private function getPaymentMethodDisplay($code)
     {
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        $session = \Stripe\Checkout\Session::retrieve($session_id);
-
-        $metadata = $session->metadata;
-
-        if (Purchase::where('item_id', $metadata->item_id)->exists()) {
-            return redirect()->route('item.index')->with('info', 'すでに購入処理が完了しています。');
-        }
-
-        Purchase::create([
-            'user_id' => $metadata->user_id,
-            'item_id' => $metadata->item_id,
-            'payment_method' => $metadata->payment_method,
-            'address_id' => $metadata->address_id,
-        ]);
-
-        return redirect()->route('item.index')->with('success', 'カードで商品を購入しました。');
+        return [
+            'conbini' => 'コンビニ支払い',
+            'credit'  => 'カード支払い',
+        ][$code] ?? '未選択';
     }
 }

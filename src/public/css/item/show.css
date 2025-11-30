@@ -1,220 +1,283 @@
-.item-detail-page.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 3rem auto;
-    padding: 1rem;
-}
-
-.item-detail-main {
+.item-detail-page {
+    padding: 30px 15px;
+    background-color: #fff;
     display: flex;
-    gap: 3rem;
+    justify-content: center;
 }
 
-.ite-image-area {
-    flex: 1 1 40%;
-    max-width: 480px;
+.item-detail-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .item-detail-wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+.item-image-box {
+    flex: 1;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .item-main-image {
     width: 100%;
-    height: auto;
-    background-color: #ccc;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: #e5e5e5;
+    display: block;
 }
 
-.item-info-area {
-    flex: 1 1 60%;
+.item-info-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .item-name {
-    font-size: 2rem;
+    font-size: 28px;
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
+    line-height: 1.4;
+    color: #000;
 }
 
 .item-brand {
-    color: #555;
-    margin-bottom: 1rem;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 20px;
 }
 
 .item-price {
-    font-size: 1.5rem;
+    font-size: 28px;
     font-weight: bold;
-    color: #000000;
-    margin-bottom: 1.5rem;
+    margin-bottom: 15px;
+    color: #000;
 }
 
 .tax-info {
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: normal;
-    color: #555;
 }
 
 .item-reactions {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    font-size: 1.125rem;
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
-.like-button, .like-count, .comment-count {
+.reaction-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
+    min-width: 40px;
 }
 
-.like-button {
+.reaction-btn {
     background: none;
     border: none;
+    font-size: 24px;
     cursor: pointer;
     padding: 0;
-    color: #777;
-    transition: color 150ms;
+    line-height: 1;
+    color: #333;
+    text-decoration: none;
 }
 
-.like-button.liked .like-icon {
-    color: #ef4444;
+.reaction-btn.liked {
+    color: #ffd700;
 }
 
-.buy-button-wrapper {
-    margin-bottom: 2rem;
+.reaction-count {
+    font-size: 12px;
+    margin-top: 2px;
+    color: #333;
 }
 
-.buy-button {
+.buy-button-area {
+    margin-bottom: 40px;
+}
+
+.submit-button {
+    display: block;
     width: 100%;
-    padding: 1rem 0;
-    background-color: #ef4444;
-    color: #ffffff;
+    background-color: #ff5555;
+    color: #fff;
     border: none;
-    border-radius: 0.25rem;
-    font-size: 1.25rem;
+    padding: 14px;
+    font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
-    transition: background-color 150ms;
-}
-
-.buy-button:hover {
-    background-color: #dc2626;
-}
-
-.is-sold-message, .is-seller-message, .login-required-message {
     text-align: center;
-    padding: 1rem;
-    background-color: #fef2f2;
-    color: #dc2626;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: opacity 0.3s;
+    box-sizing: border-box;
+}
+
+.submit-button:hover {
+    opacity: 0.8;
+}
+
+.disabled-button {
+    display: block;
+    width: 100%;
+    background-color: #ccc;
+    color: #fff;
+    padding: 14px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.info-section {
+    margin-bottom: 30px;
 }
 
 .section-title {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: bold;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 15px;
+    color: #000;
 }
 
-.item-metadata-list {
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
+.description-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #000;
+}
+
+.metadata-table {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .metadata-row {
     display: flex;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #eee;
-}
-
-.metadata-row:last-child {
-    border-bottom: none;
+    align-items: flex-start;
 }
 
 .metadata-label {
-    flex: 1;
+    width: 120px;
     font-weight: bold;
+    font-size: 16px;
+    color: #000;
 }
 
-.metadata-tags {
-    flex: 3;
+.metadata-values {
+    flex: 1;
     display: flex;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.metadata-tag {
-    padding: 0.25rem 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    color: #555;
-    background-color: #f8f8f8;
+.category-tag {
+    background-color: #eee;
+    color: #000;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 15px;
+}
+
+.condition-text {
+    font-size: 14px;
+    color: #000;
+    padding-top: 2px;
 }
 
 .comment-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
+    margin-top: 10px;
 }
 
 .comment-list {
-    margin-bottom: 2rem;
+    margin-bottom: 30px;
 }
 
-.comment-item {
+.comment-block {
+    margin-bottom: 20px;
+}
+
+.comment-header {
     display: flex;
-    flex-direction: column;
-    padding: 1rem 0;
-    border-top: 1px solid #eee;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
 }
 
-.comment-item:first-child {
-    border-top: none;
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ccc;
+    flex-shrink: 0;
 }
 
-.comment-user {
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-avatar {
+    width: 100%;
+    height: 100%;
+    background-color: #d1d1d1;
+}
+
+.comment-user-name {
     font-weight: bold;
-    color: #333;
-    margin-bottom: 0.25rem;
+    font-size: 16px;
+    color: #000;
 }
 
 .comment-body {
-    background-color: #f0f0f0;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    margin-bottom: 0.5rem;
+    background-color: #e6e6e6;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #000;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.comment-form-title {
-    font-size: 1.125rem;
+.comment-form-area {
+    margin-top: 20px;
+}
+
+.form-sub-title {
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
+    color: #000;
 }
 
 .comment-textarea {
     width: 100%;
-    padding: 0.75rem;
+    height: 150px;
     border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    resize: vertical;
-    margin-bottom: 1rem;
+    border-radius: 4px;
+    padding: 10px;
+    resize: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: inherit;
 }
 
-.comment-submit-button {
-    padding: 0.75rem 1.5rem;
-    background-color: #ef4444;
-    color: #ffffff;
-    border: none;
-    border-radius: 0.25rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 150ms;
-}
-
-.comment-submit-button:hover {
-    background-color: #dc2626;
-}
-
-@media (max-width: 768px) {
-    .item-detail-main {
-        flex-direction: column;
-    }
-    .item-image-area, .item-info-area {
-        max-width: 100%;
-        flex: none;
-    }
+.error-msg {
+    color: #ff3333;
+    font-size: 12px;
+    margin-bottom: 10px;
 }

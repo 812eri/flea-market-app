@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\SellController;
@@ -24,7 +25,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
-Route::get('/order/success', [ItemController::class, 'purchaseComplete'])->name('purchase.complete');
+Route::get('/order/success', [PurchaseController::class, 'complete'])->name('purchase.complete');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile/setup', [ProfileController::class, 'edit'])->name('profile.setup.form');
@@ -39,8 +40,8 @@ Route::middleware(['auth', 'verified','profile.completed'])->group(function () {
     Route::delete('/item/{item_id}/like', [LikeController::class, 'destroy'])->name('item.like.destroy');
     Route::post('/item/{item_id}/comment', [CommentController::class, 'store'])->name('item.comment');
 
-    Route::get('/purchase/{item_id}', [ItemController::class, 'purchaseShow'])->name('purchase.show');
-    Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
+    Route::get('/purchase/{item_id}', [PurchaseController::class, 'show'])->name('purchase.show');
+    Route::post('/item/{item_id}/purchase', [PurchaseController::class, 'store'])->name('item.purchase');
 
     Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit'])->name('address.edit');
     Route::patch('/purchase/address/{item_id}', [AddressController::class, 'update'])->name('purchase.address.update');

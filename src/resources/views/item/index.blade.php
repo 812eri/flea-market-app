@@ -9,10 +9,12 @@
 <div class="item-list-page-container">
     @unless (isset($keyword) && $keyword)
         <div class="tab-menu-wrapper">
-            <a href="{{ url('/') }}" class="tab-item {{ $current_tab === 'recommended' ? 'is-active' : '' }}">おすすめ</a>
-            @auth
-            <a href="{{ url('/?tab=mylist') }}" class="tab-item {{ $current_tab === 'mylist' ? 'is-active' : '' }}">マイリスト</a>
-            @endauth
+            <div class="tab-items-container">
+                <a href="{{ url('/') }}" class="tab-item {{ $current_tab === 'recommended' ? 'is-active' : '' }}">おすすめ</a>
+                @auth
+                <a href="{{ url('/?tab=mylist') }}" class="tab-item {{ $current_tab === 'mylist' ? 'is-active' : '' }}">マイリスト</a>
+                @endauth
+            </div>
         </div>
     @endunless
 

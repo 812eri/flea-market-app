@@ -55,12 +55,12 @@ class ItemController extends Controller
 
     public function create()
     {
-        $categories = collect(Category::all())->pluck('name', 'id')->all();
-        $conditions = collect(Condition::all())->pluck('name', 'id')->all();
+        $categories = collect(Category::all());
+        $conditions = collect(Condition::all());
 
         return view('item.create', [
-            'categories' => $categories ?? [],
-            'conditions' => $conditions ?? [],
+            'categories' => $categories,
+            'conditions' => $conditions,
         ]);
     }
 
@@ -89,116 +89,6 @@ class ItemController extends Controller
         });
 
         return redirect()->route('home')->with('success', '商品を出品しました。');
-    }
-
-    public function purchaseShow($item_id)
-    {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', '購入するにはログインが必要です。');
-        }
-
-        $item = Item::findOrFail($item_id);
-        $user_id = Auth::id();
-
-        if ($item->is_sold) {
-            return redirect()->route('item.show',$item->id)->with('error', 'この商品はすでに購入されています。');
-        }
-        if ($item->user_id === $user_id) {
-            return redirect()->route('item.show',$item->id)->with('error', 'ご自身が出品した商品は購入できません。');
-        }
-
-        $address = Address::where('user_id', $user_id)->latest()->first();
-
-        $selectedPaymentMethod = null;
-
-        return view('purchase.show', [
-            'item' => $item,
-            'address' => $address,
-            'selectedPaymentMethod' => $selectedPaymentMethod,
-        ]);
-    }
-
-    public function purchase(Request $request, $item_id)
-    {
-        $user = Auth::user();
-
-        $request->validate([
-            'payment_method' => ['required', 'string', 'in:conbini,credit'],
-        ],[
-            'payment_method.required' => '支払い方法を選択してください。',
-            'payment_method.in' => '無効な支払い方法が選択されました。',
-        ]);
-
-        $item = Item::findOrFail($item_id);
-
-        if ($item->is_sold || $item->user_id === $user->id) {
-            return redirect()->route('item.show', $item_id)->with('error', '購入できない商品です。');
-        }
-
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'jpy',
-                        'product_data' => [
-                            'name' => $item->name,
-                        ],
-                        'unit_amount' => $item->price,
-                    ],
-                    'quantity' => 1,
-                ]
-            ],
-            'mode' => 'payment',
-            'success_url' => route('purchase.complete') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('item.show', $item->id),
-            'metadata' => [
-                'item_id' => $item->id,
-                'user_id' => $user->id,
-            ],
-        ]);
-
-        return redirect($session->url, 303);
-    }
-
-    public function purchaseComplete(Request $request)
-    {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-        $sessionId = $request->get('session_id');
-
-        if (!$sessionId) {
-            return redirect()->route('home')->with('error', '決済情報が見つかりませんでした。');
-        }
-
-        try {
-            $session = Session::retrieve($sessionId);
-            if ($session->payment_status !== 'paid') {
-                return redirect()->route('home')->with('error', '決済が完了していません。');
-            }
-
-            $itemId = $session->metadata->item_id;
-            $userId = $session->metadata->user_id;
-
-            $item = Item::findOrFail($itemId);
-
-            DB::transaction(function () use ($item, $userId) {
-                if ($item->is_sold) {
-                    return;
-                }
-                $item->update([
-                    'is_sold' => true,
-                    'buyer_id' => $userId,
-                ]);
-            });
-
-            return redirect()->route('home')->with('success', '商品の購入が完了しました。');
-
-        } catch (\Exception $e) {
-            \Log::error('Stripe購入完了処理エラー: ' . $e->getMessage());
-            return redirect()->route('home')->with('error', '購入処理中にエラーが発生しました。');
-        }
     }
 
     public function show($item_id)
