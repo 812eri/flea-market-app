@@ -1,39 +1,69 @@
 @extends('layouts.app')
 
 @section('title', 'プロフィール')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/profile/index.css') }}">
 @endsection
 
 @section('content')
-<div class="profile-page-container">
-    @php
-        $listType = request('page', 'listed');
-    @endphp
+<div class="profile-page">
+    <div class="profile-container">
+        @php
+            // デフォルトは 'sell' (出品した商品) 扱いとするか、コントローラーの仕様に合わせます
+            // ここでは request('page') がなければ 'sell' とみなすロジックで記述します
+            $page = request('page', 'sell');
+        @endphp
 
-    <x-users.profile-info :user="$user" />
+        <div class="profile-header">
+            <div class="profile-info-left">
+                <div class="profile-icon">
+                    @if(isset($user->profile_image_url) && $user->profile_image_url)
+                        <img src="{{ $user->profile_image_url }}" alt="プロフィール画像">
+                    @else
+                        <div class="no-icon"></div>
+                    @endif
+                </div>
+                <h2 class="profile-name">{{ $user->name }}</h2>
+            </div>
 
-        <div class="profile-tabs-menu mt-8">
-            <a href="{{ route('profile.show', ['page' => 'sell']) }}"
-            class="profile-tab-item {{ $listType === 'sell' ? 'is-active' : '' }}">
+            <div class="profile-info-right">
+                <a href="{{ route('profile.edit') }}" class="edit-button">プロフィールを編集</a>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <a href="{{ route('profile.show', ['page' => 'sell']) }}" 
+               class="tab-item {{ $page === 'sell' ? 'active' : '' }}">
                 出品した商品
             </a>
-            <a href="{{ route('profile.show', ['page' => 'buy']) }}"
-            class="profile-tab-item {{ $listType === 'buy' ? 'is-active' : '' }}">
+            <a href="{{ route('profile.show', ['page' => 'buy']) }}" 
+               class="tab-item {{ $page === 'buy' ? 'active' : '' }}">
                 購入した商品
             </a>
         </div>
 
-    <div class="item-list-grid-wrapper profile-page__grid-wrapper">
-        @if ($items->isEmpty())
-            <p class="no-items-message">{{ $listType === 'listed' ? '出品した商品' : '購入した商品' }}はありません。</p>
-        @else
-            <div class="item-list-grid item-grid-4-cols">
-                @foreach ($items as $item)
-                    <x-items.card :item="$item" />
-                @endforeach
-            </div>
-        @endif
+        <div class="item-list-container">
+            @if ($items->isEmpty())
+                <div class="no-items-message">
+                    <p>{{ $page === 'sell' ? '出品した商品' : '購入した商品' }}はありません。</p>
+                </div>
+            @else
+                <div class="item-grid">
+                    @foreach ($items as $item)
+                        <a href="{{ route('item.show', $item->id) }}" class="item-card">
+                            <div class="item-image-wrapper">
+                                <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+                                @if($item->is_sold)
+                                    <div class="sold-label">SOLD</div>
+                                @endif
+                            </div>
+                            <p class="item-name">{{ $item->name }}</p>
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+        </div>
     </div>
 </div>
 @endsection

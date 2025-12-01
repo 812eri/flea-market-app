@@ -1,78 +1,80 @@
 @extends('layouts.app')
 
 @section('title', 'プロフィール設定')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/profile/edit.css') }}">
 @endsection
 
 @section('content')
-<div class="profile-settings-container">
-    <h2 class="page-title">プロフィール設定</h2>
+<div class="profile-settings-page">
+    <div class="profile-settings-container">
+        <h2 class="page-title">プロフィール設定</h2>
 
-    @php
-        use Illuminate\Support\Facades\Route;
+        @php
+            use Illuminate\Support\Facades\Route;
 
-        $currentRoute = Route::currentRouteName();
+            $currentRoute = Route::currentRouteName();
+            $actionRoute = $currentRoute === 'profile.setup.form'
+                        ? 'profile.setup.process'
+                        : 'profile.update';
+        @endphp
 
-        $actionRoute = $currentRoute === 'profile.setup.form'
-                       ? 'profile.setup.process'
-                       : 'profile.update';
-    @endphp
+        <form method="post" action="{{ route($actionRoute) }}" enctype="multipart/form-data" class="profile-form">
+            @csrf
+            @method('patch')
 
-    <form method="post" action="{{ route($actionRoute) }}" enctype="multipart/form-data" class="profile-form">
-        @csrf
-        @method('patch')
+            <div class="profile-image-section">
+                <div class="current-image-area">
+                    <img src="{{ $user->profile_image_url }}" alt="" class="profile-image" id="profile-image-preview">
+                </div>
 
-        <div class="profile-image-section">
-            <div class="current-image-area">
-                <img src="{{ $user->profile_image_url }}" alt="プロフィール画像" class="profile-image">
+                <div class="image-upload-wrapper">
+                    <label for="profile_image" class="btn-image-select">
+                        画像を選択する
+                    </label>
+                    <input
+                        type="file"
+                        id="profile_image"
+                        name="profile_image"
+                        class="hidden-file-input"
+                        accept="image/*"
+                    >
+                </div>
+                @error('profile_image')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
-
-            <div class="image-upload-wrapper">
-                <label for="profile_image" class="btn-image-stream_select">
-                    画像を選択する
-                </label>
-                <input
-                    type="file"
-                    id="profile_image"
-                    name="profile_image"
-                    class="hidden-file-input"
-                >
-            </div>
-            @error('profile_image')
-                <p class="error-message">{{ $message }}</p>
-            @enderror
-        </div>
 
             <x-forms.input
                 label="ユーザー名"
                 name="user_name"
                 type="text"
-                value="{{ $user->name }}"
+                value="{{ old('user_name', $user->name) }}"
             />
 
             <x-forms.input
                 label="郵便番号"
                 name="post_code"
                 type="text"
-                value="{{ $user->address->post_code ?? '' }}"
+                value="{{ old('post_code', $user->address->post_code ?? '') }}"
             />
 
             <x-forms.input
                 label="住所"
                 name="street_address"
                 type="text"
-                value="{{ $user->address->prefecture ?? '' }}{{ $user->address->city ?? '' }}{{ $user->address->street_address ?? '' }}"
+                value="{{ old('street_address', ($user->address->prefecture ?? '') . ($user->address->city ?? '') . ($user->address->street_address ?? '')) }}"
             />
 
             <x-forms.input
                 label="建物名"
                 name="building_name"
                 type="text"
-                value="{{ $user->address->building_name ?? '' }}"
+                value="{{ old('building_name', $user->address->building_name ?? '') }}"
             />
 
-            <div class="form-action-area mt-8">
+            <div class="form-action-area">
                 <x-forms.button
                     type="submit"
                     variant="primary"
@@ -82,6 +84,26 @@
                     更新する
                 </x-forms.button>
             </div>
-    </form>
+        </form>
+    </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.getElementById('profile_image').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const previewImage = document.getElementById('profile-image-preview');
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 @endsection
