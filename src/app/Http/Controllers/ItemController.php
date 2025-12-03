@@ -25,6 +25,10 @@ class ItemController extends Controller
         $tab = $request->input('tab', 'recommended');
         $query = Item::query();
 
+        if (Auth::check()) {
+            $query->where('user_id', '!=', Auth::id());
+        }
+
         if ($tab ==='mylist') {
             if (Auth::check()) {
                 $query->whereHas('likes', function ($q) {
