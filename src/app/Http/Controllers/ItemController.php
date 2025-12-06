@@ -87,9 +87,8 @@ class ItemController extends Controller
                 'image_url' => $imageUrl,
             ]);
 
-            if (isset($validated['categories'])) {
-                $item->categories()->attach($validated['categories']);
-            }
+            $item->categories()->attach($validated['categories']);
+
         });
 
         return redirect()->route('home')->with('success', '商品を出品しました。');

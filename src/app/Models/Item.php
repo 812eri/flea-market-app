@@ -16,9 +16,9 @@ class Item extends Model
         'description',
         'price',
         'brand_name',
-        'category_id',
         'condition_id',
         'image_url',
+        'status',
         'is_sold',
         'buyer_id',
     ];
