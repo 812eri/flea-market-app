@@ -16,10 +16,10 @@
 
             <div class="form-section">
                 <h3 class="section-header">商品画像</h3>
-                <div class="image-upload-area">
+                <div  id="image-upload-area" class="image-upload-area">
                     <div id="image-preview" class="image-preview"></div>
 
-                    <label for="item_image" class="upload-label">
+                    <label for="item_image" class="upload-label" id="upload-label-button">
                         画像を選択する
                         <input type="file" name="item_image" id="item_image" class="hidden-file-input" accept="image/*">
                     </label>
@@ -108,19 +108,45 @@
 
 @section('scripts')
 <script>
-    document.getElementById('item_image').addEventListener('change', function(event) {
-        const file = event.target.files[0];
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('item_image');
+        const uploadArea = document.getElementById('image-upload-area');
+        const uploadButton = document.getElementById('upload-label-button');
         const previewArea = document.getElementById('image-preview');
 
-        if (file) {
-            const reader = new FileReader();
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
 
+            if (file) {
+                const reader = new FileReader();
             reader.onload = function(e) {
-                previewArea.innerHTML = `<img src="${e.target.result}" class="preview-img">`;
-            }
+                    previewArea.innerHTML = `<img src="${e.target.result}" class="preview-img">`;
 
-            reader.readAsDataURL(file);
-        }
+                    if (uploadButton) {
+                        uploadButton.style.display = 'none';
+                    }
+
+                    previewArea.style.cursor = 'pointer';
+                    previewArea.onclick = function() {
+                        fileInput.click();
+                    };
+
+                    if (uploadArea) {
+                        uploadArea.classList.add('has-image');
+                    }
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                if (uploadArea) {
+                    uploadArea.classList.remove('has-image');
+                }
+                if (uploadButton) {
+                    uploadButton.style.display = 'inline-block';
+                }
+                previewArea.innerHTML = '';
+            }
+        });
     });
 </script>
 @endsection
