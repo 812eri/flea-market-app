@@ -9,7 +9,6 @@
 @section('content')
 <div class="item-list-page">
     <div class="item-list-container">
-        <!-- タブメニュー（検索時は非表示） -->
         @unless (isset($keyword) && $keyword)
             <div class="tab-menu">
                 <a href="{{ url('/') }}" class="tab-item {{ $current_tab === 'recommended' ? 'active' : '' }}">おすすめ</a>
@@ -19,12 +18,10 @@
             </div>
         @endunless
 
-        <!-- 検索結果タイトル -->
         @if (isset($keyword) && $keyword)
-            <h3 class="search-result-title">「{{ $keyword }}」の検索結果</h3>
+            <h1 class="search-result-title">「{{ $keyword }}」の検索結果</h1>
         @endif
 
-        <!-- 商品リストエリア -->
         <div class="item-list-content">
             @if ($items->isEmpty())
                 <p class="no-items-message">
@@ -37,7 +34,6 @@
             @else
                 <div class="item-grid">
                     @foreach ($items as $item)
-                        <!-- 商品カード -->
                         <a href="{{ route('item.show', $item->id) }}" class="item-card">
                             <div class="item-image-wrapper">
                                 <img src="{{ $item->image_url }}" alt="{{ $item->name }}">

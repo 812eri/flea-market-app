@@ -10,8 +10,6 @@
 <div class="profile-page">
     <div class="profile-container">
         @php
-            // デフォルトは 'sell' (出品した商品) 扱いとするか、コントローラーの仕様に合わせます
-            // ここでは request('page') がなければ 'sell' とみなすロジックで記述します
             $page = request('page', 'sell');
         @endphp
 
@@ -24,7 +22,7 @@
                         <div class="no-icon"></div>
                     @endif
                 </div>
-                <h2 class="profile-name">{{ $user->name }}</h2>
+                <h1 class="profile-name">{{ $user->name }}</h1>
             </div>
 
             <div class="profile-info-right">
@@ -33,12 +31,12 @@
         </div>
 
         <div class="profile-tabs">
-            <a href="{{ route('profile.show', ['page' => 'sell']) }}" 
-               class="tab-item {{ $page === 'sell' ? 'active' : '' }}">
+            <a href="{{ route('profile.show', ['page' => 'sell']) }}"
+                class="tab-item {{ $page === 'sell' ? 'active' : '' }}">
                 出品した商品
             </a>
-            <a href="{{ route('profile.show', ['page' => 'buy']) }}" 
-               class="tab-item {{ $page === 'buy' ? 'active' : '' }}">
+            <a href="{{ route('profile.show', ['page' => 'buy']) }}"
+                class="tab-item {{ $page === 'buy' ? 'active' : '' }}">
                 購入した商品
             </a>
         </div>

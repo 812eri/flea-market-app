@@ -9,7 +9,7 @@
 @section('content')
 <div class="profile-settings-page">
     <div class="profile-settings-container">
-        <h2 class="page-title">プロフィール設定</h2>
+        <h1 class="page-title">プロフィール設定</h1>
 
         @php
             use Illuminate\Support\Facades\Route;

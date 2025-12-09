@@ -14,7 +14,7 @@
         </div>
 
         <div class="item-info-box">
-            <h2 class="item-name">{{ $item->name }}</h2>
+            <h1 class="item-name">{{ $item->name }}</h1>
 
             <p class="item-brand">{{ $item->brand_name }}</p>
 

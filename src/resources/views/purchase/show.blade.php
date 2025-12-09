@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="purchase-page container">
-    <h2 class="page-title">商品購入</h2>
+    <h1 class="page-title">商品購入</h1>
 
     <div class="purchase-main-content">
         <div class="purchase-left-section">

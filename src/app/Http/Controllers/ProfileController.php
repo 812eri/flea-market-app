@@ -29,6 +29,7 @@ class ProfileController extends Controller
     return view('profile.index',[
         'user' => $user,
         'items' => $items,
+        'page' => $listType,
     ]);
 }
 

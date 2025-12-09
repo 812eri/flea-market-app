@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="auth container">
-    <h2 class="page-title">ログイン</h2>
+    <h1 class="page-title">ログイン</h1>
 
     <form method="POST" action="{{ route ('login') }}" class="auth-form">
         @csrf

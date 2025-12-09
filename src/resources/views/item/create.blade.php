@@ -9,7 +9,7 @@
 @section('content')
 <div class="item-create-page">
     <div class="item-create-container">
-        <h2 class="page-title">商品の出品</h2>
+        <h1 class="page-title">商品の出品</h1>
 
         <form method="POST" action="{{ route('item.store') }}" enctype="multipart/form-data" class="item-create-form">
             @csrf
